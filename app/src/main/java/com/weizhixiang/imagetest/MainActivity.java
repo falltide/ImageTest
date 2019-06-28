@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_MAINACTIVITY = 1;
     public static final String USERNAME="com.weizhixang.imagetest.MainActivity.USERNAME";
     private int i;
+    private int j=10;
 
 
     static {
@@ -98,16 +99,23 @@ public class MainActivity extends AppCompatActivity {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                data.clear();
+                //data.clear();
                 buildworks();
-                WaterFallAdapter mAdapter = new WaterFallAdapter(MainActivity.this, data);
-                mRecyclerView.setAdapter(mAdapter);
+                mAdapter.notifyDataSetChanged();
+                //WaterFallAdapter mAdapter = new WaterFallAdapter(MainActivity.this, data);
+                //mRecyclerView.setAdapter(mAdapter);
                 refreshLayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                for(;i>=0;i--){
+                  work = works.get(i);
+                    work.height= (i % 2) * 100 + 400;
+                    data.add(work);
+                }
+                mAdapter.notifyDataSetChanged();
                 refreshLayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
             }
         });
@@ -166,29 +174,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(List<com.weizhixiang.imagetest.data.works> list) {
                 if (list!=null && list.size()>0){
-                    //works = list;
-//                    for( i = 0;i<list.size();i++){
-//                        work = list.get(i);
-//                        BmobQuery<image> imageBmobQuery = new BmobQuery<>();
-//                        imageBmobQuery.addWhereEqualTo("work",list.get(i).getObjectId());
-//                        //Toast.makeText(MainActivity.this, list.glet(i).getObjectId(),3*1000).show();
-//                        //imageBmobQuery.include("url");
-//                        imageBmobQuery.findObjects(MainActivity.this, new FindListener<image>() {
-//                            @Override
-//                            public void onSuccess(List<image> list) {
-//                                if (list!=null && list.size()>0) {
-//                                    work.setUrl(list.get(0).getUrl());
-//                                    work.height = (i % 2) * 100 + 400;
-//                                    data.add(work);
-//                                }
-//                            }
-//                            @Override
-//                            public void onError(int i, String s) {
-//                                Toast.makeText(MainActivity.this, s,3*1000).show();
-//                            }
-//                        });
-//                    }
-                    for (i=list.size()-1;i >= 0;i--){
+                    works = list;
+
+                    for (i=list.size()-j;i >= list.size()-10;i--){
                         work = list.get(i);
                         work.height= (i % 2) * 100 + 400;
                         data.add(work);

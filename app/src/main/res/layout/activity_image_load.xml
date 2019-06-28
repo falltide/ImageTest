@@ -30,26 +30,30 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="标题" />
+            android:hint="标题" />
 
         <EditText
             android:id="@+id/descride"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textLongMessage|textPersonName"
-            android:text="描述" />
+            android:layout_height="150dp"
+            android:minLines="5"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:hint="描述" />
 
         <Button
             android:id="@+id/button_select"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
             android:text="选择图片" />
 
         <Button
             android:id="@+id/button_load"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:layout_marginTop="10dp"
             android:text="上传" />
 
     </LinearLayout>
