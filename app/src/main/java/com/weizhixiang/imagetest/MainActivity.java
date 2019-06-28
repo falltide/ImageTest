@@ -154,6 +154,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(View view, int postion) {
+                Intent intent = new Intent(MainActivity.this,DetailedActivity.class);
+                intent.putExtra("work_id",data.get(postion).getObjectId());
+                intent.putExtra("title",data.get(postion).getTitle());
+                intent.putExtra("describe",data.get(postion).getDescribe());
+                startActivity(intent);
                 Toast.makeText(MainActivity.this, postion+"", 3*1000).show();
             }
         });
