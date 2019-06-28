@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 ComponentName componentName = new ComponentName(LoginActivity.this, MainActivity.class);
                 mainintent.setComponent(componentName);
                 mainintent.putExtra(LoginActivity.USERNAME,user.getUsername());
+                //mainintent.putExtra("userId",user.getObjectId());
                 //startActivityForResult(mainintent, REQUEST_CODE_LOGINACTIVITY);
                 startActivity(mainintent);
                 finish();
@@ -87,18 +88,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         signintent.setComponent(componentName);
         startActivity(signintent);
         finish();
-    }
-
-    public void IntentMain(){
-        Intent mainintent = new Intent();
-        if (iscorrect == true) {
-            ComponentName componentName = new ComponentName(LoginActivity.this, MainActivity.class);
-            mainintent.setComponent(componentName);
-            mainintent.putExtra(LoginActivity.USERNAME,user.getUsername());
-            //startActivityForResult(mainintent, REQUEST_CODE_LOGINACTIVITY);
-            startActivity(mainintent);
-            finish();
-        }
     }
 
     //CheckBox点击事件
@@ -188,7 +177,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onSuccess() {
                 iscorrect = true;
-
                 Toast.makeText(LoginActivity.this, "Login success",3*1000).show();
             }
 

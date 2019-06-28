@@ -112,8 +112,6 @@ public class ImageLoad extends AppCompatActivity {
         Intent intent = getIntent();
         //user.setUsername(intent.getStringExtra(MainActivity.USERNAME));
         BmobQuery<User> query = new BmobQuery<User>();
-        //String bql = "select * from _User where username = "+intent.getStringExtra(MainActivity.USERNAME);
-        //query.setSQL(bql);
         query.addWhereEqualTo("username",intent.getStringExtra(MainActivity.USERNAME));
         query.findObjects(this,new FindListener<User>() {
             @Override

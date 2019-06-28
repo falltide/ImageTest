@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -146,9 +147,10 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
         Intent intent = getIntent();
         user.setUsername(intent.getStringExtra(LoginActivity.USERNAME));
+        getUserId();
         fab.setOnClickListener(fabClickListeber);
         mRecyclerView.setAdapter(mAdapter);
-        Toast.makeText(MainActivity.this,"hello："+user.getUsername(),3*1000).show();
+        //Toast.makeText(MainActivity.this,"hello："+user.getObjectId(),3*1000).show();
 
         mAdapter.setOnItemClickListener(new OnItemClickListener() {
 
@@ -158,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("work_id",data.get(postion).getObjectId());
                 intent.putExtra("title",data.get(postion).getTitle());
                 intent.putExtra("describe",data.get(postion).getDescribe());
-                intent.putExtra(MainActivity.USERNAME,data.get(postion).getUser().getObjectId());
+                intent.putExtra(MainActivity.USERNAME,user.getObjectId());
                 intent.putExtra("number",data.get(postion).getNumber().toString());
                 startActivity(intent);
                 //Toast.makeText(MainActivity.this, postion+"", 3*1000).show();
@@ -212,6 +214,24 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void getUserId(){
+        Intent intent = getIntent();
+        BmobQuery<User> query = new BmobQuery<User>();
+        query.addWhereEqualTo("username",intent.getStringExtra(LoginActivity.USERNAME));
+        query.findObjects(this,new FindListener<User>() {
+            @Override
+            public void onSuccess(List<User> list) {
+                if(list!=null && list.size()>0){
+                    user = list.get(0);
+                }else{
+                    Log.i("smile", "查询成功，无数据返回");
+                }
+            }
+            @Override
+            public void onError(int i, String s) {
+            }
+        });
+    }
 
     public void initBottomNavigation() {
         mBottomNavigationView = findViewById(R.id.nav_view);
@@ -241,13 +261,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * 回调接口
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param intent
-     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         switch (requestCode) {
