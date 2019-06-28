@@ -93,7 +93,7 @@ public class WaterFallAdapter extends RecyclerView.Adapter<WaterFallAdapter.MyVi
 
         @Override
         public void onClick(View v) {
-            mListener.onItemClick(v, getAdapterPosition());
+            mListener.onItemClick(v, getPosition());
         }
     }
 }
