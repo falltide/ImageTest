@@ -1,5 +1,6 @@
 package com.weizhixiang.imagetest.adapter;
 
+import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -16,9 +17,11 @@ import java.util.List;
 
 public class DetaileAdapter extends RecyclerView.Adapter<DetaileAdapter.MyViewHolder> {
     private List<image> images;
+    private Context context;
 
-    public DetaileAdapter(List<image> images){
+    public DetaileAdapter(Context context,List<image> images){
         this.images = images;
+        this.context = context;
     }
 
     @NonNull
@@ -43,7 +46,7 @@ public class DetaileAdapter extends RecyclerView.Adapter<DetaileAdapter.MyViewHo
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            detaile_image = itemView.findViewById(R.id.load_image);
+            detaile_image = itemView.findViewById(R.id.detaile_image);
         }
     }
 }
