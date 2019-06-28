@@ -13,7 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.facebook.cache.disk.DiskCacheConfig;
+import com.facebook.common.util.ByteConstants;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
@@ -30,6 +33,7 @@ import com.weizhixiang.imagetest.data.User;
 import com.weizhixiang.imagetest.data.image;
 import com.weizhixiang.imagetest.data.works;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -84,9 +88,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        DiskCacheConfig diskCacheConfig = DiskCacheConfig.newBuilder(this)
+                .setBaseDirectoryPath(new File(getCacheDir() + "/caches"))
+                .setBaseDirectoryName("rsSystemPicCache").setMaxCacheSize(200 * ByteConstants.MB)
+                .setMaxCacheSizeOnLowDiskSpace(100 * ByteConstants.MB)
+                .setMaxCacheSizeOnVeryLowDiskSpace(50 * ByteConstants.MB)
+                .setMaxCacheSize(80 * ByteConstants.MB).build();
+
+        ImagePipelineConfig config = ImagePipelineConfig.newBuilder(this)
+                .setMainDiskCacheConfig(diskCacheConfig)
+                .setDownsampleEnabled(true)
+                .build();
+        Fresco.initialize(MainActivity.this,config);
         super.onCreate(savedInstanceState);
         Bmob.initialize(this, "9bfe7b07ff60f8bc689320203b96149d");
-        Fresco.initialize(MainActivity.this);
         setContentView(R.layout.activity_main);
 
 
@@ -110,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                for(;i>=0;i--){
+                for(i=i-1;i>=0;i--){
                   work = works.get(i);
                     work.height= (i % 2) * 100 + 400;
                     data.add(work);
@@ -175,8 +190,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(List<com.weizhixiang.imagetest.data.works> list) {
                 if (list!=null && list.size()>0){
                     works = list;
-
-                    for (i=list.size()-j;i >= list.size()-10;i--){
+                    for (i=list.size()-1;i >= list.size()-10;i--){
                         work = list.get(i);
                         work.height= (i % 2) * 100 + 400;
                         data.add(work);
