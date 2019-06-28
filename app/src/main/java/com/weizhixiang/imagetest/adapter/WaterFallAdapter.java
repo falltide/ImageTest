@@ -56,6 +56,7 @@ public class WaterFallAdapter extends RecyclerView.Adapter<WaterFallAdapter.MyVi
         holder.userAvatar.getLayoutParams().height =(position % 2) * 100 + 400;
         holder.userName.setText(work.getUsername());
         holder.title.setText(work.getTitle());
+        holder.work_numbers.setText(work.getNumber().toString());
     }
 
     @Override

@@ -158,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("work_id",data.get(postion).getObjectId());
                 intent.putExtra("title",data.get(postion).getTitle());
                 intent.putExtra("describe",data.get(postion).getDescribe());
+                intent.putExtra(MainActivity.USERNAME,data.get(postion).getUser());
                 startActivity(intent);
                 Toast.makeText(MainActivity.this, postion+"", 3*1000).show();
             }

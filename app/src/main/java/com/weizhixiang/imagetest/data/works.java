@@ -16,6 +16,7 @@ public class works extends BmobObject {
     private String title;
     public int height;
     private String url;
+    private Integer Number;
 
     public String getDescribe() {
         return describe;
@@ -55,5 +56,13 @@ public class works extends BmobObject {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Integer getNumber() {
+        return Number;
+    }
+
+    public void setNumber(Integer number) {
+        Number = number;
     }
 }
