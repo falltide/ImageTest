@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                for(i=i-1;i>=0;i--){
+                for(;i>=0;i--){
                   work = works.get(i);
                     work.height= (i % 2) * 100 + 400;
                     data.add(work);
@@ -158,9 +158,10 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("work_id",data.get(postion).getObjectId());
                 intent.putExtra("title",data.get(postion).getTitle());
                 intent.putExtra("describe",data.get(postion).getDescribe());
-                intent.putExtra(MainActivity.USERNAME,data.get(postion).getUser());
+                intent.putExtra(MainActivity.USERNAME,data.get(postion).getUser().getObjectId());
+                intent.putExtra("number",data.get(postion).getNumber().toString());
                 startActivity(intent);
-                Toast.makeText(MainActivity.this, postion+"", 3*1000).show();
+                //Toast.makeText(MainActivity.this, postion+"", 3*1000).show();
             }
         });
     }
