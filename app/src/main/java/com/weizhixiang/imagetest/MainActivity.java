@@ -44,6 +44,7 @@ import java.util.List;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobDate;
+import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.listener.FindListener;
 
 import com.scwang.smartrefresh.*;
@@ -115,11 +116,9 @@ public class MainActivity extends AppCompatActivity {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                //data.clear();
+                data.clear();
                 buildworks();
                 mAdapter.notifyDataSetChanged();
-                //WaterFallAdapter mAdapter = new WaterFallAdapter(MainActivity.this, data);
-                //mRecyclerView.setAdapter(mAdapter);
                 refreshLayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
             }
         });
@@ -241,15 +240,14 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
-                        //setContentView(R.layout.activity_main);
-                        //setFragmentPosition(0);
+                        data.clear();
+                        buildworks();
+                        mAdapter.notifyDataSetChanged();
                         break;
                     case R.id.navigation_dashboard:
-                        //setFragmentPosition(1);
+                        favorite();
                         break;
                     case R.id.navigation_notifications:
-                        //setContentView(R.layout.mine_msg);
-                        //setFragmentPosition(2);
                         break;
                     default:
                         break;
@@ -260,6 +258,25 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void favorite(){
+        BmobQuery<works> query = new BmobQuery<works>();
+        query.addWhereRelatedTo("likes", new BmobPointer(user));
+        query.findObjects(MainActivity.this, new FindListener<works>() {
+            @Override
+            public void onSuccess(List<works> list) {
+                data.clear();
+                for (int i=0;i<list.size();i++){
+                    works works1 = list.get(i);
+                    works1.height= (i % 2) * 100 + 400;
+                    data.add(works1);
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onError(int i, String s) {
+            }
+        });
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
